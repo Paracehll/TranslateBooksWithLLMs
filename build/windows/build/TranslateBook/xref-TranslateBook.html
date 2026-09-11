@@ -4706,6 +4706,8 @@ imported by:
  &#8226;   <a href="#aiofiles.threadpool">aiofiles.threadpool</a>
  &#8226;   <a href="#launcher.py">launcher.py</a>
  &#8226;   <a href="#src.core.epub.translator">src.core.epub.translator</a>
+ &#8226;   <a href="#src.core.refine.srt_refiner">src.core.refine.srt_refiner</a>
+ &#8226;   <a href="#src.core.refine.txt_refiner">src.core.refine.txt_refiner</a>
  &#8226;   <a href="#src.utils.file_utils">src.utils.file_utils</a>
 
   </div>
@@ -25284,6 +25286,7 @@ imported by:
  &#8226;   <a href="#src.core.epub.ruby_annotations">src.core.epub.ruby_annotations</a>
  &#8226;   <a href="#src.core.epub.translator">src.core.epub.translator</a>
  &#8226;   <a href="#src.core.epub.xhtml_translator">src.core.epub.xhtml_translator</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
  &#8226;   <a href="#src.persistence.checkpoint_manager">src.persistence.checkpoint_manager</a>
  &#8226;   <a href="#src.utils.document_sampler">src.utils.document_sampler</a>
  &#8226;   <a href="#src.utils.language_detector">src.utils.language_detector</a>
@@ -25442,6 +25445,7 @@ imported by:
  &#8226;   <a href="#src.core.epub.ruby_annotations">src.core.epub.ruby_annotations</a>
  &#8226;   <a href="#src.core.epub.translator">src.core.epub.translator</a>
  &#8226;   <a href="#src.core.epub.xhtml_translator">src.core.epub.xhtml_translator</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
  &#8226;   <a href="#src.persistence.checkpoint_manager">src.persistence.checkpoint_manager</a>
  &#8226;   <a href="#src.utils.document_sampler">src.utils.document_sampler</a>
  &#8226;   <a href="#src.utils.language_detector">src.utils.language_detector</a>
@@ -28510,6 +28514,7 @@ imported by:
  &#8226;   <a href="#src.api.services.path_validator">src.api.services.path_validator</a>
  &#8226;   <a href="#src.config">src.config</a>
  &#8226;   <a href="#src.core.adapters.epub_adapter">src.core.adapters.epub_adapter</a>
+ &#8226;   <a href="#src.core.adapters.refine_file">src.core.adapters.refine_file</a>
  &#8226;   <a href="#src.core.adapters.translate_file">src.core.adapters.translate_file</a>
  &#8226;   <a href="#src.core.docx.converter">src.core.docx.converter</a>
  &#8226;   <a href="#src.core.docx.docx_translation_adapter">src.core.docx.docx_translation_adapter</a>
@@ -28522,6 +28527,10 @@ imported by:
  &#8226;   <a href="#src.core.epub.translator">src.core.epub.translator</a>
  &#8226;   <a href="#src.core.glossary.store">src.core.glossary.store</a>
  &#8226;   <a href="#src.core.llm.factory">src.core.llm.factory</a>
+ &#8226;   <a href="#src.core.refine.docx_refiner">src.core.refine.docx_refiner</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
+ &#8226;   <a href="#src.core.refine.srt_refiner">src.core.refine.srt_refiner</a>
+ &#8226;   <a href="#src.core.refine.txt_refiner">src.core.refine.txt_refiner</a>
  &#8226;   <a href="#src.persistence.checkpoint_manager">src.persistence.checkpoint_manager</a>
  &#8226;   <a href="#src.persistence.database">src.persistence.database</a>
  &#8226;   <a href="#src.tts.audio_processor">src.tts.audio_processor</a>
@@ -29499,6 +29508,7 @@ imported by:
  &#8226;   <a href="#src.core.srt_processor">src.core.srt_processor</a>
  &#8226;   <a href="#src.core.style.extractor">src.core.style.extractor</a>
  &#8226;   <a href="#src.core.style.lint">src.core.style.lint</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
  &#8226;   <a href="#src.core.text_processor">src.core.text_processor</a>
  &#8226;   <a href="#src.core.translator">src.core.translator</a>
  &#8226;   <a href="#src.persistence.checkpoint_manager">src.persistence.checkpoint_manager</a>
@@ -32551,6 +32561,7 @@ imported by:
  &#8226;   <a href="#src.common.placeholder_format">src.common.placeholder_format</a>
  &#8226;   <a href="#src.core.adapters.epub_adapter">src.core.adapters.epub_adapter</a>
  &#8226;   <a href="#src.core.adapters.generic_translator">src.core.adapters.generic_translator</a>
+ &#8226;   <a href="#src.core.adapters.refine_file">src.core.adapters.refine_file</a>
  &#8226;   <a href="#src.core.adapters.srt_adapter">src.core.adapters.srt_adapter</a>
  &#8226;   <a href="#src.core.adapters.translate_file">src.core.adapters.translate_file</a>
  &#8226;   <a href="#src.core.chunking.token_chunker">src.core.chunking.token_chunker</a>
@@ -32579,8 +32590,14 @@ imported by:
  &#8226;   <a href="#src.core.llm.utils.context_detection">src.core.llm.utils.context_detection</a>
  &#8226;   <a href="#src.core.llm_client">src.core.llm_client</a>
  &#8226;   <a href="#src.core.post_processor">src.core.post_processor</a>
+ &#8226;   <a href="#src.core.refine.client_setup">src.core.refine.client_setup</a>
+ &#8226;   <a href="#src.core.refine.docx_refiner">src.core.refine.docx_refiner</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
+ &#8226;   <a href="#src.core.refine.srt_refiner">src.core.refine.srt_refiner</a>
+ &#8226;   <a href="#src.core.refine.txt_refiner">src.core.refine.txt_refiner</a>
  &#8226;   <a href="#src.core.sampling">src.core.sampling</a>
  &#8226;   <a href="#src.core.srt_processor">src.core.srt_processor</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
  &#8226;   <a href="#src.core.text_processor">src.core.text_processor</a>
  &#8226;   <a href="#src.core.translator">src.core.translator</a>
  &#8226;   <a href="#src.prompts.examples.constants">src.prompts.examples.constants</a>
@@ -32622,9 +32639,11 @@ imported by:
  &#8226;   <a href="#src.core.pricing">src.core.pricing</a>
  &#8226;   <a href="#src.core.progress">src.core.progress</a>
  &#8226;   <a href="#src.core.progress_tracker">src.core.progress_tracker</a>
+ &#8226;   <a href="#src.core.refine">src.core.refine</a>
  &#8226;   <a href="#src.core.sampling">src.core.sampling</a>
  &#8226;   <a href="#src.core.srt_processor">src.core.srt_processor</a>
  &#8226;   <a href="#src.core.style">src.core.style</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
  &#8226;   <a href="#src.core.text_processor">src.core.text_processor</a>
  &#8226;   <a href="#src.core.translator">src.core.translator</a>
 
@@ -32790,6 +32809,7 @@ imported by:
  &#8226;   <a href="#src.core.adapters.error_handler">src.core.adapters.error_handler</a>
  &#8226;   <a href="#src.core.adapters.error_logger">src.core.adapters.error_logger</a>
  &#8226;   <a href="#src.core.adapters.error_recovery">src.core.adapters.error_recovery</a>
+ &#8226;   <a href="#src.core.adapters.refine_file">src.core.adapters.refine_file</a>
  &#8226;   <a href="#src.core.adapters.retry_manager">src.core.adapters.retry_manager</a>
  &#8226;   <a href="#src.core.adapters.translate_file">src.core.adapters.translate_file</a>
 
@@ -32852,7 +32872,16 @@ imported by:
   <a target="code" href="///E:/Code/TranslateBooksWithLLMs/src/core/adapters/refine_file.py" type="text/plain"><tt>src.core.adapters.refine_file</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#src.core.adapters">src.core.adapters</a>
+    <a href="#os">os</a>
+ &#8226;   <a href="#src.config">src.config</a>
+ &#8226;   <a href="#src.core.adapters">src.core.adapters</a>
+ &#8226;   <a href="#src.core.adapters.exceptions">src.core.adapters.exceptions</a>
+ &#8226;   <a href="#src.core.refine.docx_refiner">src.core.refine.docx_refiner</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
+ &#8226;   <a href="#src.core.refine.srt_refiner">src.core.refine.srt_refiner</a>
+ &#8226;   <a href="#src.core.refine.txt_refiner">src.core.refine.txt_refiner</a>
+ &#8226;   <a href="#src.utils.file_detector">src.utils.file_detector</a>
+ &#8226;   <a href="#typing">typing</a>
 
   </div>
   <div class="import">
@@ -33046,6 +33075,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#src.core.adapters.txt_adapter">src.core.adapters.txt_adapter</a>
+ &#8226;   <a href="#src.core.refine.txt_refiner">src.core.refine.txt_refiner</a>
 
   </div>
 
@@ -33209,6 +33239,8 @@ imports:
 imported by:
     <a href="#src.core.epub.translator">src.core.epub.translator</a>
  &#8226;   <a href="#src.core.epub.xhtml_translator">src.core.epub.xhtml_translator</a>
+ &#8226;   <a href="#src.core.refine.client_setup">src.core.refine.client_setup</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
  &#8226;   <a href="#src.core.translator">src.core.translator</a>
 
   </div>
@@ -33262,6 +33294,7 @@ imports:
 imported by:
     <a href="#src.core.docx">src.core.docx</a>
  &#8226;   <a href="#src.core.docx.docx_translation_adapter">src.core.docx.docx_translation_adapter</a>
+ &#8226;   <a href="#src.core.refine.docx_refiner">src.core.refine.docx_refiner</a>
 
   </div>
 
@@ -33387,6 +33420,7 @@ imported by:
  &#8226;   <a href="#src.core.epub.translator">src.core.epub.translator</a>
  &#8226;   <a href="#src.core.epub.xhtml_translation_state">src.core.epub.xhtml_translation_state</a>
  &#8226;   <a href="#src.core.epub.xhtml_translator">src.core.epub.xhtml_translator</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
 
   </div>
 
@@ -33522,6 +33556,8 @@ imported by:
     <a href="#src.core.docx.docx_translation_adapter">src.core.docx.docx_translation_adapter</a>
  &#8226;   <a href="#src.core.epub.epub_translation_adapter">src.core.epub.epub_translation_adapter</a>
  &#8226;   <a href="#src.core.epub.xhtml_translator">src.core.epub.xhtml_translator</a>
+ &#8226;   <a href="#src.core.refine.docx_refiner">src.core.refine.docx_refiner</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
 
   </div>
 
@@ -33960,6 +33996,8 @@ imports:
 imported by:
     <a href="#src.core.adapters.translate_file">src.core.adapters.translate_file</a>
  &#8226;   <a href="#src.core.epub">src.core.epub</a>
+ &#8226;   <a href="#src.core.refine.client_setup">src.core.refine.client_setup</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
 
   </div>
 
@@ -34031,6 +34069,8 @@ imported by:
  &#8226;   <a href="#src.core.docx.docx_translation_adapter">src.core.docx.docx_translation_adapter</a>
  &#8226;   <a href="#src.core.epub">src.core.epub</a>
  &#8226;   <a href="#src.core.epub.epub_translation_adapter">src.core.epub.epub_translation_adapter</a>
+ &#8226;   <a href="#src.core.refine.docx_refiner">src.core.refine.docx_refiner</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
 
   </div>
 
@@ -34305,6 +34345,8 @@ imported by:
  &#8226;   <a href="#src.core.llm.providers.openrouter">src.core.llm.providers.openrouter</a>
  &#8226;   <a href="#src.core.llm.providers.poe">src.core.llm.providers.poe</a>
  &#8226;   <a href="#src.core.llm.rate_limit_handler">src.core.llm.rate_limit_handler</a>
+ &#8226;   <a href="#src.core.refine.txt_refiner">src.core.refine.txt_refiner</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
 
   </div>
 
@@ -34779,6 +34821,8 @@ imported by:
     <a href="#src.api.handlers">src.api.handlers</a>
  &#8226;   <a href="#src.core.adapters.generic_translator">src.core.adapters.generic_translator</a>
  &#8226;   <a href="#src.core.epub.translator">src.core.epub.translator</a>
+ &#8226;   <a href="#src.core.refine.srt_refiner">src.core.refine.srt_refiner</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
  &#8226;   <a href="#src.core.translator">src.core.translator</a>
 
   </div>
@@ -34802,6 +34846,7 @@ imports:
 imported by:
     <a href="#src.core.common.plain_text_pipeline">src.core.common.plain_text_pipeline</a>
  &#8226;   <a href="#src.core.epub.translator">src.core.epub.translator</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
  &#8226;   <a href="#src.core.translator">src.core.translator</a>
 
   </div>
@@ -34967,6 +35012,156 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="src.core.refine"></a>
+  <a target="code" href="///E:/Code/TranslateBooksWithLLMs/src/core/refine/__init__.py" type="text/plain"><tt>src.core.refine</tt></a>
+<span class="moduletype">Package</span>  <div class="import">
+imports:
+    <a href="#src.core">src.core</a>
+ &#8226;   <a href="#src.core.refine.docx_refiner">src.core.refine.docx_refiner</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
+ &#8226;   <a href="#src.core.refine.srt_refiner">src.core.refine.srt_refiner</a>
+ &#8226;   <a href="#src.core.refine.txt_refiner">src.core.refine.txt_refiner</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#src.core.refine.client_setup">src.core.refine.client_setup</a>
+ &#8226;   <a href="#src.core.refine.docx_refiner">src.core.refine.docx_refiner</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
+ &#8226;   <a href="#src.core.refine.srt_refiner">src.core.refine.srt_refiner</a>
+ &#8226;   <a href="#src.core.refine.txt_refiner">src.core.refine.txt_refiner</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="src.core.refine.client_setup"></a>
+  <a target="code" href="///E:/Code/TranslateBooksWithLLMs/src/core/refine/client_setup.py" type="text/plain"><tt>src.core.refine.client_setup</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#src.config">src.config</a>
+ &#8226;   <a href="#src.core.context_optimizer">src.core.context_optimizer</a>
+ &#8226;   <a href="#src.core.epub.translator">src.core.epub.translator</a>
+ &#8226;   <a href="#src.core.refine">src.core.refine</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#src.core.refine.docx_refiner">src.core.refine.docx_refiner</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="src.core.refine.docx_refiner"></a>
+  <a target="code" href="///E:/Code/TranslateBooksWithLLMs/src/core/refine/docx_refiner.py" type="text/plain"><tt>src.core.refine.docx_refiner</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#os">os</a>
+ &#8226;   <a href="#src.config">src.config</a>
+ &#8226;   <a href="#src.core.docx.converter">src.core.docx.converter</a>
+ &#8226;   <a href="#src.core.epub.container">src.core.epub.container</a>
+ &#8226;   <a href="#src.core.epub.xhtml_translator">src.core.epub.xhtml_translator</a>
+ &#8226;   <a href="#src.core.refine">src.core.refine</a>
+ &#8226;   <a href="#src.core.refine.client_setup">src.core.refine.client_setup</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
+ &#8226;   <a href="#tempfile">tempfile</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#src.core.adapters.refine_file">src.core.adapters.refine_file</a>
+ &#8226;   <a href="#src.core.refine">src.core.refine</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="src.core.refine.epub_refiner"></a>
+  <a target="code" href="///E:/Code/TranslateBooksWithLLMs/src/core/refine/epub_refiner.py" type="text/plain"><tt>src.core.refine.epub_refiner</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#lxml">lxml</a>
+ &#8226;   <a href="#lxml.etree">lxml.etree</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#src.config">src.config</a>
+ &#8226;   <a href="#src.core.context_optimizer">src.core.context_optimizer</a>
+ &#8226;   <a href="#src.core.epub.container">src.core.epub.container</a>
+ &#8226;   <a href="#src.core.epub.translator">src.core.epub.translator</a>
+ &#8226;   <a href="#src.core.epub.xhtml_translator">src.core.epub.xhtml_translator</a>
+ &#8226;   <a href="#src.core.refine">src.core.refine</a>
+ &#8226;   <a href="#src.core.refine.client_setup">src.core.refine.client_setup</a>
+ &#8226;   <a href="#src.utils.file_utils">src.utils.file_utils</a>
+ &#8226;   <a href="#tempfile">tempfile</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#src.core.adapters.refine_file">src.core.adapters.refine_file</a>
+ &#8226;   <a href="#src.core.refine">src.core.refine</a>
+ &#8226;   <a href="#src.core.refine.docx_refiner">src.core.refine.docx_refiner</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="src.core.refine.srt_refiner"></a>
+  <a target="code" href="///E:/Code/TranslateBooksWithLLMs/src/core/refine/srt_refiner.py" type="text/plain"><tt>src.core.refine.srt_refiner</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#aiofiles">aiofiles</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#src.config">src.config</a>
+ &#8226;   <a href="#src.core.llm_client">src.core.llm_client</a>
+ &#8226;   <a href="#src.core.refine">src.core.refine</a>
+ &#8226;   <a href="#src.core.srt_processor">src.core.srt_processor</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#src.core.adapters.refine_file">src.core.adapters.refine_file</a>
+ &#8226;   <a href="#src.core.refine">src.core.refine</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="src.core.refine.txt_refiner"></a>
+  <a target="code" href="///E:/Code/TranslateBooksWithLLMs/src/core/refine/txt_refiner.py" type="text/plain"><tt>src.core.refine.txt_refiner</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#aiofiles">aiofiles</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#src.config">src.config</a>
+ &#8226;   <a href="#src.core.chunking.reassembly">src.core.chunking.reassembly</a>
+ &#8226;   <a href="#src.core.llm.exceptions">src.core.llm.exceptions</a>
+ &#8226;   <a href="#src.core.refine">src.core.refine</a>
+ &#8226;   <a href="#src.core.text_processor">src.core.text_processor</a>
+ &#8226;   <a href="#src.core.translator">src.core.translator</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#src.core.adapters.refine_file">src.core.adapters.refine_file</a>
+ &#8226;   <a href="#src.core.refine">src.core.refine</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="src.core.sampling"></a>
   <a target="code" href="///E:/Code/TranslateBooksWithLLMs/src/core/sampling.py" type="text/plain"><tt>src.core.sampling</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -35000,6 +35195,8 @@ imports:
 imported by:
     <a href="#src.api.blueprints.sample_routes">src.api.blueprints.sample_routes</a>
  &#8226;   <a href="#src.core.adapters.srt_adapter">src.core.adapters.srt_adapter</a>
+ &#8226;   <a href="#src.core.refine.srt_refiner">src.core.refine.srt_refiner</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
  &#8226;   <a href="#src.persistence.checkpoint_manager">src.persistence.checkpoint_manager</a>
  &#8226;   <a href="#src.utils.file_utils">src.utils.file_utils</a>
 
@@ -35115,6 +35312,34 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="src.core.subtitle_translator"></a>
+  <a target="code" href="///E:/Code/TranslateBooksWithLLMs/src/core/subtitle_translator.py" type="text/plain"><tt>src.core.subtitle_translator</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#re">re</a>
+ &#8226;   <a href="#src.config">src.config</a>
+ &#8226;   <a href="#src.core">src.core</a>
+ &#8226;   <a href="#src.core.epub">src.core.epub</a>
+ &#8226;   <a href="#src.core.llm.exceptions">src.core.llm.exceptions</a>
+ &#8226;   <a href="#src.core.llm_client">src.core.llm_client</a>
+ &#8226;   <a href="#src.core.post_processor">src.core.post_processor</a>
+ &#8226;   <a href="#src.core.srt_processor">src.core.srt_processor</a>
+ &#8226;   <a href="#src.core.translator">src.core.translator</a>
+ &#8226;   <a href="#src.prompts.prompts">src.prompts.prompts</a>
+ &#8226;   <a href="#time">time</a>
+ &#8226;   <a href="#tqdm.auto">tqdm.auto</a>
+ &#8226;   <a href="#typing">typing</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#src.core.refine.srt_refiner">src.core.refine.srt_refiner</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="src.core.text_processor"></a>
   <a target="code" href="///E:/Code/TranslateBooksWithLLMs/src/core/text_processor.py" type="text/plain"><tt>src.core.text_processor</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -35131,6 +35356,7 @@ imported by:
     <a href="#src.api.blueprints.sample_routes">src.api.blueprints.sample_routes</a>
  &#8226;   <a href="#src.core">src.core</a>
  &#8226;   <a href="#src.core.adapters.txt_adapter">src.core.adapters.txt_adapter</a>
+ &#8226;   <a href="#src.core.refine.txt_refiner">src.core.refine.txt_refiner</a>
 
   </div>
 
@@ -35165,6 +35391,8 @@ imported by:
  &#8226;   <a href="#src.core.adapters.generic_translator">src.core.adapters.generic_translator</a>
  &#8226;   <a href="#src.core.common.plain_text_pipeline">src.core.common.plain_text_pipeline</a>
  &#8226;   <a href="#src.core.epub.xhtml_translator">src.core.epub.xhtml_translator</a>
+ &#8226;   <a href="#src.core.refine.txt_refiner">src.core.refine.txt_refiner</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
 
   </div>
 
@@ -35412,6 +35640,7 @@ imported by:
  &#8226;   <a href="#src.core.epub.xhtml_translator">src.core.epub.xhtml_translator</a>
  &#8226;   <a href="#src.core.glossary.ner">src.core.glossary.ner</a>
  &#8226;   <a href="#src.core.style.extractor">src.core.style.extractor</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
  &#8226;   <a href="#src.core.translator">src.core.translator</a>
  &#8226;   <a href="#src.prompts">src.prompts</a>
 
@@ -35747,6 +35976,7 @@ imports:
   <div class="import">
 imported by:
     <a href="#src.api.blueprints.sample_routes">src.api.blueprints.sample_routes</a>
+ &#8226;   <a href="#src.core.adapters.refine_file">src.core.adapters.refine_file</a>
  &#8226;   <a href="#src.core.adapters.translate_file">src.core.adapters.translate_file</a>
  &#8226;   <a href="#src.utils.security">src.utils.security</a>
 
@@ -35777,6 +36007,7 @@ imported by:
     <a href="#src.api.blueprints.tts_routes">src.api.blueprints.tts_routes</a>
  &#8226;   <a href="#src.api.handlers">src.api.handlers</a>
  &#8226;   <a href="#src.core.epub.translator">src.core.epub.translator</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
 
   </div>
 
@@ -36690,6 +36921,8 @@ imported by:
  &#8226;   <a href="#src.core.docx.docx_translation_adapter">src.core.docx.docx_translation_adapter</a>
  &#8226;   <a href="#src.core.epub.cover_extractor">src.core.epub.cover_extractor</a>
  &#8226;   <a href="#src.core.epub.translator">src.core.epub.translator</a>
+ &#8226;   <a href="#src.core.refine.docx_refiner">src.core.refine.docx_refiner</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
  &#8226;   <a href="#src.persistence.checkpoint_manager">src.persistence.checkpoint_manager</a>
  &#8226;   <a href="#src.tts.audio_processor">src.tts.audio_processor</a>
  &#8226;   <a href="#src.tts.providers.chatterbox_tts">src.tts.providers.chatterbox_tts</a>
@@ -37099,6 +37332,7 @@ imported by:
  &#8226;   <a href="#src.core.llm.thinking.cache">src.core.llm.thinking.cache</a>
  &#8226;   <a href="#src.core.progress.tracker">src.core.progress.tracker</a>
  &#8226;   <a href="#src.core.progress_tracker">src.core.progress_tracker</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
  &#8226;   <a href="#src.core.translator">src.core.translator</a>
  &#8226;   <a href="#src.persistence.database">src.persistence.database</a>
  &#8226;   <a href="#src.utils.app_updater">src.utils.app_updater</a>
@@ -37310,7 +37544,8 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#src.core.translator">src.core.translator</a>
+    <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
+ &#8226;   <a href="#src.core.translator">src.core.translator</a>
 
   </div>
 
@@ -38188,6 +38423,7 @@ imported by:
  &#8226;   <a href="#src.core.adapters.exceptions">src.core.adapters.exceptions</a>
  &#8226;   <a href="#src.core.adapters.format_adapter">src.core.adapters.format_adapter</a>
  &#8226;   <a href="#src.core.adapters.generic_translator">src.core.adapters.generic_translator</a>
+ &#8226;   <a href="#src.core.adapters.refine_file">src.core.adapters.refine_file</a>
  &#8226;   <a href="#src.core.adapters.retry_manager">src.core.adapters.retry_manager</a>
  &#8226;   <a href="#src.core.adapters.srt_adapter">src.core.adapters.srt_adapter</a>
  &#8226;   <a href="#src.core.adapters.translate_file">src.core.adapters.translate_file</a>
@@ -38258,11 +38494,17 @@ imported by:
  &#8226;   <a href="#src.core.progress.snapshot">src.core.progress.snapshot</a>
  &#8226;   <a href="#src.core.progress.tracker">src.core.progress.tracker</a>
  &#8226;   <a href="#src.core.progress_tracker">src.core.progress_tracker</a>
+ &#8226;   <a href="#src.core.refine.client_setup">src.core.refine.client_setup</a>
+ &#8226;   <a href="#src.core.refine.docx_refiner">src.core.refine.docx_refiner</a>
+ &#8226;   <a href="#src.core.refine.epub_refiner">src.core.refine.epub_refiner</a>
+ &#8226;   <a href="#src.core.refine.srt_refiner">src.core.refine.srt_refiner</a>
+ &#8226;   <a href="#src.core.refine.txt_refiner">src.core.refine.txt_refiner</a>
  &#8226;   <a href="#src.core.sampling">src.core.sampling</a>
  &#8226;   <a href="#src.core.srt_processor">src.core.srt_processor</a>
  &#8226;   <a href="#src.core.style.assembler">src.core.style.assembler</a>
  &#8226;   <a href="#src.core.style.extractor">src.core.style.extractor</a>
  &#8226;   <a href="#src.core.style.lint">src.core.style.lint</a>
+ &#8226;   <a href="#src.core.subtitle_translator">src.core.subtitle_translator</a>
  &#8226;   <a href="#src.core.text_processor">src.core.text_processor</a>
  &#8226;   <a href="#src.core.translator">src.core.translator</a>
  &#8226;   <a href="#src.persistence.checkpoint_manager">src.persistence.checkpoint_manager</a>
