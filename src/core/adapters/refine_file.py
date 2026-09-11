@@ -94,7 +94,6 @@ async def refine_file(
             auto_adjust_context=auto_adjust_context,
             max_tokens_per_chunk=max_tokens_per_chunk,
             max_refinement_retries=max_refinement_retries,
-            max_refinement_retries=max_refinement_retries,
             prompt_options=prompt_options,
         )
 
@@ -121,7 +120,6 @@ async def refine_file(
             auto_adjust_context=auto_adjust_context,
             max_tokens_per_chunk=max_tokens_per_chunk,
             max_refinement_retries=max_refinement_retries,
-            max_refinement_retries=max_refinement_retries,
             prompt_options=prompt_options,
         )
 
@@ -147,7 +145,6 @@ async def refine_file(
             context_window=context_window or 2048,
             auto_adjust_context=auto_adjust_context,
             max_tokens_per_chunk=max_tokens_per_chunk,
-            max_refinement_retries=max_refinement_retries,
             max_refinement_retries=max_refinement_retries,
             prompt_options=prompt_options,
         )
