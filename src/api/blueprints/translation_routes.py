@@ -402,6 +402,7 @@ def create_translation_blueprint(state_manager, start_translation_job, output_di
             'auto_pause_on_rate_limit': data.get('auto_pause_on_rate_limit', AUTO_PAUSE_ON_RATE_LIMIT),
             # Bilingual output (original + translation interleaved)
             'bilingual_output': data.get('bilingual_output', False),
+            'max_refinement_retries': int(data.get('max_refinement_retries', _config.MAX_REFINEMENT_RETRIES)),
             # Refine-only mode (skip translation, run only refinement on input)
             'refine_only': data.get('refine_only', False),
             # Chained refinement pass after translation

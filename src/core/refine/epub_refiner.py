@@ -64,6 +64,7 @@ async def _refine_one_xhtml(
     prompt_options: Optional[Dict],
     check_interruption_callback: Optional[Callable],
     container: Optional[TranslationContainer] = None,
+    max_refinement_retries: Optional[int] = None,
 ) -> bool:
     """Refine a single parsed XHTML document in place."""
     body_html, body_element, tag_preserver = _setup_translation(
@@ -100,6 +101,7 @@ async def _refine_one_xhtml(
         placeholder_format=placeholder_format,
         log_callback=log_callback,
         prompt_options=prompt_options,
+        max_refinement_retries=max_refinement_retries,
     )
 
     if check_interruption_callback and check_interruption_callback():
@@ -136,6 +138,7 @@ async def refine_epub_file(
     auto_adjust_context: bool = True,
     prompt_options: Optional[Dict] = None,
     max_tokens_per_chunk: int = MAX_TOKENS_PER_CHUNK,
+    max_refinement_retries: Optional[int] = None,
 ) -> bool:
     """Run a refinement-only pass on an already-translated EPUB."""
     if not os.path.exists(input_filepath):

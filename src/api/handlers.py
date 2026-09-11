@@ -771,6 +771,7 @@ async def perform_actual_translation(translation_id, config, state_manager, outp
                 context_window=config.get('context_window', 2048),
                 auto_adjust_context=config.get('auto_adjust_context', True),
                 max_tokens_per_chunk=config.get('max_tokens_per_chunk'),
+                max_refinement_retries=config.get('max_refinement_retries'),
                 prompt_options=config.get('prompt_options', {}),
             )
         else:
@@ -802,6 +803,7 @@ async def perform_actual_translation(translation_id, config, state_manager, outp
                 auto_adjust_context=config.get('auto_adjust_context', True),
                 min_chunk_size=config.get('min_chunk_size', 5),
                 max_tokens_per_chunk=config.get('max_tokens_per_chunk'),
+                max_refinement_retries=config.get('max_refinement_retries'),
                 prompt_options=config.get('prompt_options', {}),
                 bilingual_output=config.get('bilingual_output', False),
                 parallel_workers=config.get('parallel_workers', 1),
@@ -854,6 +856,7 @@ async def perform_actual_translation(translation_id, config, state_manager, outp
                     context_window=config.get('context_window', 2048),
                     auto_adjust_context=config.get('auto_adjust_context', True),
                     max_tokens_per_chunk=config.get('max_tokens_per_chunk'),
+                    max_refinement_retries=config.get('max_refinement_retries'),
                     prompt_options=config.get('prompt_options', {}),
                 )
 
