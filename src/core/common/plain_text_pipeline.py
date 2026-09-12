@@ -460,17 +460,41 @@ async def translate_paragraphs_plain(
 
     async def _translate_chunk(i):
         """Translate one chunk. Reads previous_translation_context only in
-        sequential mode (parallel runs have no stable previous chunk)."""
+        sequential mode (parallel runs have no stable previous chunk).
+        Retries until translation succeeds when MAX_TRANSLATION_ATTEMPTS == -1."""
         main_content = chunks[i].get('main_content', '')
         if not main_content.strip():
             return ('empty', main_content)
-        translated = await _request(
-            main_content,
-            chunks[i].get('context_before', ''),
-            chunks[i].get('context_after', ''),
-            previous_translation_context if sequential else "",
-        )
-        return ('done', translated)
+
+        from src.config import MAX_TRANSLATION_ATTEMPTS
+        attempt = 0
+        while True:
+            if check_interruption_callback and check_interruption_callback():
+                break
+            try:
+                translated = await _request(
+                    main_content,
+                    chunks[i].get('context_before', ''),
+                    chunks[i].get('context_after', ''),
+                    previous_translation_context if sequential else "",
+                )
+                if translated is not None:
+                    return ('done', translated)
+            except Exception as e:
+                from src.core.llm.exceptions import RateLimitError
+                if isinstance(e, RateLimitError):
+                    raise e
+                if MAX_TRANSLATION_ATTEMPTS != -1 and attempt >= MAX_TRANSLATION_ATTEMPTS:
+                    raise e
+
+            if MAX_TRANSLATION_ATTEMPTS != -1 and attempt >= MAX_TRANSLATION_ATTEMPTS:
+                break
+            attempt += 1
+            if log_callback:
+                max_str = '∞' if MAX_TRANSLATION_ATTEMPTS == -1 else str(MAX_TRANSLATION_ATTEMPTS)
+                log_callback('chunk_retry', f'⚠️ Chunk {i + 1}/{len(chunks)} failed, retrying (attempt {attempt}/{max_str})...')
+
+        return ('done', None)
 
     async def _translate_one_paragraph(text, context_before, context_after):
         """Repair call for a single paragraph.
