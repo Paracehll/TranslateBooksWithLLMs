@@ -241,7 +241,7 @@ class OpenRouterProvider(LLMProvider):
         # key must not consume a transient-retry attempt (issue #217).
         attempt = 0
         rate_limit_events = 0
-        while attempt < MAX_TRANSLATION_ATTEMPTS:
+        while (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
             current_key = await self._key_pool.acquire()
             headers = {
                 "Authorization": f"Bearer {current_key}",
@@ -316,7 +316,7 @@ class OpenRouterProvider(LLMProvider):
             except httpx.TimeoutException as e:
                 print(f"OpenRouter API Timeout (attempt {attempt + 1}/{MAX_TRANSLATION_ATTEMPTS}): {e}")
                 attempt += 1
-                if attempt < MAX_TRANSLATION_ATTEMPTS:
+                if (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
                     await asyncio.sleep(2)
                     continue
                 return None
@@ -359,21 +359,21 @@ class OpenRouterProvider(LLMProvider):
                     return None
 
                 attempt += 1
-                if attempt < MAX_TRANSLATION_ATTEMPTS:
+                if (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
                     await asyncio.sleep(2)
                     continue
                 return None
             except json.JSONDecodeError as e:
                 print(f"OpenRouter API JSON Decode Error (attempt {attempt + 1}/{MAX_TRANSLATION_ATTEMPTS}): {e}")
                 attempt += 1
-                if attempt < MAX_TRANSLATION_ATTEMPTS:
+                if (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
                     await asyncio.sleep(2)
                     continue
                 return None
             except Exception as e:
                 print(f"OpenRouter API Unknown Error (attempt {attempt + 1}/{MAX_TRANSLATION_ATTEMPTS}): {e}")
                 attempt += 1
-                if attempt < MAX_TRANSLATION_ATTEMPTS:
+                if (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
                     await asyncio.sleep(2)
                     continue
                 return None

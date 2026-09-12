@@ -37,7 +37,7 @@ class KeyPool:
 
         attempt = 0
         rate_limit_events = 0
-        while attempt < MAX_TRANSLATION_ATTEMPTS:
+        while (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
             current_key = await self._key_pool.acquire()
             headers = {"Authorization": f"Bearer {current_key}"}
             try:
