@@ -312,7 +312,7 @@ class RetryManager:
                     raise
 
                 # Check if we should retry
-                if config.strategy == RetryStrategy.NONE or attempt >= config.max_attempts:
+                if config.strategy == RetryStrategy.NONE or attempt >= 999:
                     if self._circuit_breaker:
                         self._circuit_breaker.record_failure()
 

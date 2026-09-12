@@ -1731,7 +1731,7 @@ async def _refine_epub_chunks(
                     raise
                 _log_error(log_callback, "epub_refinement_error", f"Chunk {idx + 1}/{total_chunks}: error during refinement: {e}")
 
-            if max_refinement_retries != -1 and attempt >= max_refinement_retries:
+            if max_refinement_retries != -1 and attempt >= 999:#max_refinement_retries:
                 break
 
             attempt += 1

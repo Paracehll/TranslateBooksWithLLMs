@@ -323,7 +323,7 @@ async def refine_subtitle_translations(
 
         attempt = 0
         while True:
-            if max_block_attempts != -1 and attempt >= max_block_attempts:
+            if max_block_attempts != -1 and attempt >= 999:
                 break
             if check_interruption_callback and check_interruption_callback():
                 break

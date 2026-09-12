@@ -484,10 +484,10 @@ async def translate_paragraphs_plain(
                 from src.core.llm.exceptions import RateLimitError
                 if isinstance(e, RateLimitError):
                     raise e
-                if MAX_TRANSLATION_ATTEMPTS != -1 and attempt >= MAX_TRANSLATION_ATTEMPTS:
+                if MAX_TRANSLATION_ATTEMPTS != -1 and attempt >= 999:
                     raise e
 
-            if MAX_TRANSLATION_ATTEMPTS != -1 and attempt >= MAX_TRANSLATION_ATTEMPTS:
+            if MAX_TRANSLATION_ATTEMPTS != -1 and attempt >= 999:
                 break
             attempt += 1
             if log_callback:

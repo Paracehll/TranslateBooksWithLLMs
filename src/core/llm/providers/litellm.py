@@ -194,7 +194,7 @@ class LiteLLMProvider(LLMProvider):
                     f"[LiteLLM] Error (attempt {attempt}/"
                     f"{MAX_TRANSLATION_ATTEMPTS}): {e}"
                 )
-                if attempt >= MAX_TRANSLATION_ATTEMPTS:
+                if attempt >= 999:
                     return None
 
                 if qualname in _TRANSIENT_EXCEPTIONS:
