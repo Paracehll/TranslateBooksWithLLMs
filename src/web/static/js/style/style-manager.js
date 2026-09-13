@@ -1048,9 +1048,12 @@ async function handleExtractRun() {
     // same read logic as the glossary NER modal (glossary-manager.js).
     const provider = (DomHelpers.getValue('llmProvider') || '').trim();
     const model = (DomHelpers.getValue('model') || '').trim();
-    const apiEndpoint = (provider === 'openai'
-        ? DomHelpers.getValue('openaiEndpoint')
-        : DomHelpers.getValue('apiEndpoint')) || '';
+    const ENDPOINT_PROVIDERS = new Set(['ollama', 'openai']);
+    const apiEndpoint = ENDPOINT_PROVIDERS.has(provider)
+        ? (provider === 'openai'
+            ? DomHelpers.getValue('openaiEndpoint')
+            : DomHelpers.getValue('apiEndpoint')) || ''
+        : '';
     const apiKey = provider ? ApiKeyUtils.getValueForProvider(provider) : '';
 
     const formData = new FormData();

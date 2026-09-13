@@ -170,7 +170,7 @@ def create_llm_provider(provider_type: str = "ollama", **kwargs) -> LLMProvider:
         return OpenAICompatibleProvider(
             api_key=api_key,
             model=kwargs.get("model", NIM_MODEL),
-            api_endpoint=kwargs.get("api_endpoint", NIM_API_ENDPOINT),
+            api_endpoint=kwargs.get("api_endpoint") or NIM_API_ENDPOINT,
             provider_name="nim",
         )
 

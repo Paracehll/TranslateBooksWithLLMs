@@ -1537,9 +1537,12 @@ async function handleNerExtract() {
     // NER targets the same backend the user has configured for translation.
     const provider = (DomHelpers.getValue('llmProvider') || '').trim();
     const model = (DomHelpers.getValue('model') || '').trim();
-    const apiEndpoint = (provider === 'openai'
-        ? DomHelpers.getValue('openaiEndpoint')
-        : DomHelpers.getValue('apiEndpoint')) || '';
+    const ENDPOINT_PROVIDERS = new Set(['ollama', 'openai']);
+    const apiEndpoint = ENDPOINT_PROVIDERS.has(provider)
+        ? (provider === 'openai'
+            ? DomHelpers.getValue('openaiEndpoint')
+            : DomHelpers.getValue('apiEndpoint')) || ''
+        : '';
     const apiKey = provider ? ApiKeyUtils.getValueForProvider(provider) : '';
 
     const payload = new FormData();

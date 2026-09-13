@@ -684,11 +684,21 @@ def create_glossary_blueprint(store: Optional[GlossaryStore] = None):
 
             provider_type = (data.get('provider') or _config.LLM_PROVIDER or 'ollama').lower()
             model = data.get('model') or _config.DEFAULT_MODEL
-            api_endpoint = data.get('api_endpoint') or _config.API_ENDPOINT
 
-            ok, endpoint_error = EndpointValidator.validate(api_endpoint)
-            if not ok:
-                return jsonify({"error": endpoint_error}), 400
+            # Only evaluate and validate api_endpoint if the provider actually consumes custom endpoints.
+            raw_endpoint = data.get('api_endpoint')
+            if provider_type in ('ollama', 'openai') and raw_endpoint:
+                api_endpoint = raw_endpoint
+                ok, endpoint_error = EndpointValidator.validate(api_endpoint)
+                if not ok:
+                    return jsonify({"error": endpoint_error}), 400
+            elif provider_type == 'ollama':
+                api_endpoint = _config.API_ENDPOINT
+                ok, endpoint_error = EndpointValidator.validate(api_endpoint)
+                if not ok:
+                    return jsonify({"error": endpoint_error}), 400
+            else:
+                api_endpoint = None
 
             # The frontend sends the '__USE_ENV__' sentinel (or nothing) when the
             # key field is empty but a key is configured in .env; resolve_api_key
