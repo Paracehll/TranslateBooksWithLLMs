@@ -115,7 +115,7 @@ class OpenAICompatibleProvider(LLMProvider):
         # key must not consume a transient-retry attempt (issue #217).
         attempt = 0
         rate_limit_events = 0
-        while attempt < MAX_TRANSLATION_ATTEMPTS:
+        while (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
             current_key = await self._key_pool.acquire() if self._key_pool else None
             headers = {"Content-Type": "application/json"}
             if current_key:
@@ -171,7 +171,7 @@ class OpenAICompatibleProvider(LLMProvider):
                     print(f"{YELLOW}⚠️ OpenAI-compatible API Timeout (attempt {attempt + 1}/{MAX_TRANSLATION_ATTEMPTS}): {e}{RESET}")
 
                 attempt += 1
-                if attempt < MAX_TRANSLATION_ATTEMPTS:
+                if (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
                     if self.log_callback:
                         self.log_callback("llm_retry", f"   Retrying in 2 seconds...")
                     await asyncio.sleep(2)
@@ -274,7 +274,7 @@ class OpenAICompatibleProvider(LLMProvider):
                     return None
 
                 attempt += 1
-                if attempt < MAX_TRANSLATION_ATTEMPTS:
+                if (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
                     if self.log_callback:
                         self.log_callback("llm_retry", f"   Retrying in 2 seconds...")
                     await asyncio.sleep(2)
@@ -311,7 +311,7 @@ class OpenAICompatibleProvider(LLMProvider):
                     print(f"{YELLOW}⚠️ OpenAI-compatible API JSON Decode Error (attempt {attempt + 1}/{MAX_TRANSLATION_ATTEMPTS}): {e}{RESET}")
 
                 attempt += 1
-                if attempt < MAX_TRANSLATION_ATTEMPTS:
+                if (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
                     if self.log_callback:
                         self.log_callback("llm_retry", f"   Retrying in 2 seconds...")
                     await asyncio.sleep(2)
@@ -342,7 +342,7 @@ class OpenAICompatibleProvider(LLMProvider):
                     print(f"{YELLOW}⚠️ OpenAI-compatible API Unknown Error (attempt {attempt + 1}/{MAX_TRANSLATION_ATTEMPTS}): {type(e).__name__}: {e}{RESET}")
 
                 attempt += 1
-                if attempt < MAX_TRANSLATION_ATTEMPTS:
+                if (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
                     if self.log_callback:
                         self.log_callback("llm_retry", f"   Retrying in 2 seconds...")
                     await asyncio.sleep(2)

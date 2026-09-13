@@ -137,7 +137,7 @@ class LiteLLMProvider(LLMProvider):
         # a transient-retry attempt (same contract as the other cloud providers).
         attempt = 0
         rate_limit_events = 0
-        while attempt < MAX_TRANSLATION_ATTEMPTS:
+        while (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
             current_key = await self._key_pool.acquire() if self._key_pool else None
             try:
                 response = await litellm.acompletion(
@@ -194,7 +194,7 @@ class LiteLLMProvider(LLMProvider):
                     f"[LiteLLM] Error (attempt {attempt}/"
                     f"{MAX_TRANSLATION_ATTEMPTS}): {e}"
                 )
-                if attempt >= MAX_TRANSLATION_ATTEMPTS:
+                if attempt >= 999:
                     return None
 
                 if qualname in _TRANSIENT_EXCEPTIONS:

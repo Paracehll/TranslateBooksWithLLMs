@@ -714,6 +714,7 @@ async def refine_chunks(
     context_window=2048,
     auto_adjust_context=True,
     prompt_options=None,
+    max_refinement_retries=None,
 ) -> List[str]:
     """
     Refine translated chunks with a second pass for literary quality improvement.
@@ -741,6 +742,10 @@ async def refine_chunks(
     Returns:
         List of refined text strings
     """
+    if max_refinement_retries is None:
+        from src.config import MAX_REFINEMENT_RETRIES as _DEFAULT_REF_RETRIES
+        max_refinement_retries = _DEFAULT_REF_RETRIES
+
     total_chunks = len(translated_chunks)
     refined_parts = []
     last_refined_context = ""
@@ -854,36 +859,54 @@ async def refine_chunks(
                 context_before = original_chunks[i].get("context_before", "")
                 context_after = original_chunks[i].get("context_after", "")
 
-            # Make refinement request
-            try:
-                refined_text, llm_response = await _make_refinement_request(
-                    draft_translation=draft_text,
-                    context_before=context_before,
-                    context_after=context_after,
-                    previous_refined_context=last_refined_context,
-                    target_language=target_language,
-                    model=model_name,
-                    llm_client=llm_client,
-                    log_callback=log_callback,
-                    has_placeholders=False,
-                    prompt_options=prompt_options,
-                    context_manager=context_manager,
-                    runtime_state=runtime_state,
-                )
-            except RateLimitError as e:
+            # Make refinement request with retry loop
+            refined_text, llm_response = None, None
+            attempt = 0
+            while True:
+                if check_interruption_callback and check_interruption_callback():
+                    break
+                try:
+                    refined_text, llm_response = await _make_refinement_request(
+                        draft_translation=draft_text,
+                        context_before=context_before,
+                        context_after=context_after,
+                        previous_refined_context=last_refined_context,
+                        target_language=target_language,
+                        model=model_name,
+                        llm_client=llm_client,
+                        log_callback=log_callback,
+                        has_placeholders=False,
+                        prompt_options=prompt_options,
+                        context_manager=context_manager,
+                        runtime_state=runtime_state,
+                    )
+                except RateLimitError as e:
+                    if log_callback:
+                        retry_msg = f" (retry after ~{e.retry_after}s)" if e.retry_after else ""
+                        log_callback("rate_limit_pause",
+                            f"⏸️ Rate limited by {e.provider or 'API'}{retry_msg}. "
+                            f"Auto-pausing refinement at chunk {i+1}/{total_chunks}...")
+                    # Add remaining unrefined chunks as-is
+                    for remaining in translated_chunks[i:]:
+                        refined_parts.append(remaining)
+                    # Invariant: len(refined_parts) == len(translated_chunks) here —
+                    # the list is complete, chunks at index >= i are the unrefined
+                    # drafts. Hand it to the caller so the partial pass can be saved.
+                    e.partial_result = list(refined_parts)
+                    raise  # Re-raise to handlers.py
+
+                if refined_text is not None:
+                    break
+
+                # Refinement failed for this attempt
+                if max_refinement_retries != -1 and attempt >= 999:
+                    break
+
+                attempt += 1
                 if log_callback:
-                    retry_msg = f" (retry after ~{e.retry_after}s)" if e.retry_after else ""
-                    log_callback("rate_limit_pause",
-                        f"⏸️ Rate limited by {e.provider or 'API'}{retry_msg}. "
-                        f"Auto-pausing refinement at chunk {i+1}/{total_chunks}...")
-                # Add remaining unrefined chunks as-is
-                for remaining in translated_chunks[i:]:
-                    refined_parts.append(remaining)
-                # Invariant: len(refined_parts) == len(translated_chunks) here —
-                # the list is complete, chunks at index >= i are the unrefined
-                # drafts. Hand it to the caller so the partial pass can be saved.
-                e.partial_result = list(refined_parts)
-                raise  # Re-raise to handlers.py
+                    max_str = '∞' if max_refinement_retries == -1 else str(max_refinement_retries)
+                    log_callback("refinement_retry",
+                        f"⚠️ Refinement failed for chunk {i+1}/{total_chunks}. Retrying (attempt {attempt}/{max_str})...")
 
             # Record success in context manager
             if refined_text is not None and llm_response and context_manager:

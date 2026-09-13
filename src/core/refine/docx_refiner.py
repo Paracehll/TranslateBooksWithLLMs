@@ -38,6 +38,7 @@ async def refine_docx_file(
     auto_adjust_context: bool = True,
     prompt_options: Optional[Dict] = None,
     max_tokens_per_chunk: int = MAX_TOKENS_PER_CHUNK,
+    max_refinement_retries: Optional[int] = None,
 ) -> bool:
     """Run a refinement-only pass on an already-translated DOCX file."""
     if not os.path.exists(input_filepath):
@@ -113,6 +114,7 @@ async def refine_docx_file(
             log_callback=log_callback,
             prompt_options=prompt_options,
             stats_callback=stats_callback,
+            max_refinement_retries=max_refinement_retries,
         )
 
         if check_interruption_callback and check_interruption_callback():

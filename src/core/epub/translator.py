@@ -72,6 +72,7 @@ async def translate_epub_file(
     bilingual: bool = False,
     parallel_workers: int = 1,
     retry_token_aligned: bool = False,
+    max_refinement_retries: Optional[int] = None,
 ) -> None:
     """
     Translate an EPUB file using LLM with generic orchestrator.

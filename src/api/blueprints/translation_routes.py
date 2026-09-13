@@ -57,7 +57,7 @@ _ENDPOINT_PROVIDERS = ('ollama', 'openai')
 # The others use a constant or a .env endpoint and ignore the request field,
 # so an endpoint sent alongside them is inert and must not be treated as an
 # override — the frontend sends llm_api_endpoint unconditionally.
-_ENDPOINT_CONSUMING_PROVIDERS = ('ollama', 'openai', 'nim')
+_ENDPOINT_CONSUMING_PROVIDERS = ('ollama', 'openai')
 
 
 def _server_default_endpoint(provider):
@@ -70,8 +70,6 @@ def _server_default_endpoint(provider):
         return _config.API_ENDPOINT
     if provider == 'openai':
         return _config.OPENAI_API_ENDPOINT
-    if provider == 'nim':
-        return _config.NIM_API_ENDPOINT
     return ''
 
 
@@ -402,6 +400,7 @@ def create_translation_blueprint(state_manager, start_translation_job, output_di
             'auto_pause_on_rate_limit': data.get('auto_pause_on_rate_limit', AUTO_PAUSE_ON_RATE_LIMIT),
             # Bilingual output (original + translation interleaved)
             'bilingual_output': data.get('bilingual_output', False),
+            'max_refinement_retries': int(data.get('max_refinement_retries', _config.MAX_REFINEMENT_RETRIES)),
             # Refine-only mode (skip translation, run only refinement on input)
             'refine_only': data.get('refine_only', False),
             # Chained refinement pass after translation

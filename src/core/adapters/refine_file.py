@@ -35,6 +35,7 @@ async def refine_file(
     context_window: Optional[int] = None,
     auto_adjust_context: bool = True,
     max_tokens_per_chunk: Optional[int] = None,
+    max_refinement_retries: Optional[int] = None,
     prompt_options: Optional[Dict[str, Any]] = None,
     **additional_config,
 ) -> bool:
@@ -92,6 +93,7 @@ async def refine_file(
             context_window=context_window or 2048,
             auto_adjust_context=auto_adjust_context,
             max_tokens_per_chunk=max_tokens_per_chunk,
+            max_refinement_retries=max_refinement_retries,
             prompt_options=prompt_options,
         )
 
@@ -117,6 +119,7 @@ async def refine_file(
             context_window=context_window or 2048,
             auto_adjust_context=auto_adjust_context,
             max_tokens_per_chunk=max_tokens_per_chunk,
+            max_refinement_retries=max_refinement_retries,
             prompt_options=prompt_options,
         )
 
@@ -142,6 +145,7 @@ async def refine_file(
             context_window=context_window or 2048,
             auto_adjust_context=auto_adjust_context,
             max_tokens_per_chunk=max_tokens_per_chunk,
+            max_refinement_retries=max_refinement_retries,
             prompt_options=prompt_options,
         )
 
@@ -164,6 +168,7 @@ async def refine_file(
             deepseek_api_key=deepseek_api_key,
             poe_api_key=poe_api_key,
             nim_api_key=nim_api_key,
+            max_refinement_retries=max_refinement_retries,
             prompt_options=prompt_options,
         )
 

@@ -96,12 +96,13 @@ _RELOADABLE_ENV_SETTINGS = (
     # every runtime consumer resolves it lazily (text_processor.split_text_into_chunks,
     # translate_file, refine_file) rather than snapshotting it at import.
     ('MAX_TOKENS_PER_CHUNK', 'MAX_TOKENS_PER_CHUNK', '450'),
+    ('MAX_REFINEMENT_RETRIES', 'MAX_REFINEMENT_RETRIES', '0'),
 )
 
 
 _NOTIFY_BOOL_ATTRS = {'NOTIFY_ON_SUCCESS', 'NOTIFY_ON_FAILURE', 'NOTIFY_ON_INTERRUPTION'}
 _NOTIFY_INT_ATTRS = {'NOTIFY_TIMEOUT_SECONDS'}
-_INT_ATTRS = {'PARALLEL_TRANSLATIONS', 'MAX_TOKENS_PER_CHUNK'}
+_INT_ATTRS = {'PARALLEL_TRANSLATIONS', 'MAX_TOKENS_PER_CHUNK', 'MAX_REFINEMENT_RETRIES'}
 
 
 def _apply_reloadable_env_settings():
@@ -689,6 +690,7 @@ class TranslationConfig:
     # LLM parameters
     timeout: int = REQUEST_TIMEOUT
     max_attempts: int = MAX_TRANSLATION_ATTEMPTS
+    max_refinement_retries: int = MAX_REFINEMENT_RETRIES
     retry_delay: int = 2  # Fixed retry delay in seconds
     context_window: int = OLLAMA_NUM_CTX
 

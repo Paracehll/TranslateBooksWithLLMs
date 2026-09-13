@@ -326,6 +326,7 @@ def create_config_blueprint(server_session_id=None):
             "timeout": _config.REQUEST_TIMEOUT,
             "context_window": _config.OLLAMA_NUM_CTX,
             "max_attempts": _config.MAX_TRANSLATION_ATTEMPTS,
+            "max_refinement_retries": _config.MAX_REFINEMENT_RETRIES,
             "retry_delay": 2,
             "supported_formats": ["txt", "epub", "srt"],
             "gemini_api_key": gemini_mask,

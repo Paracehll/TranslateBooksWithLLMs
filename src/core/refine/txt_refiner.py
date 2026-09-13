@@ -71,6 +71,7 @@ async def refine_txt_file(
     auto_adjust_context: bool = True,
     max_tokens_per_chunk: Optional[int] = None,
     soft_limit_ratio: Optional[float] = None,
+    max_refinement_retries: Optional[int] = None,
     prompt_options: Optional[Dict[str, Any]] = None,
 ) -> bool:
     """Run a refinement-only pass on an already-translated text file.
@@ -160,6 +161,7 @@ async def refine_txt_file(
             context_window=context_window,
             auto_adjust_context=auto_adjust_context,
             prompt_options=prompt_options,
+            max_refinement_retries=max_refinement_retries,
         )
     except RateLimitError as e:
         # Persist whatever the pass managed to refine before pausing, then let

@@ -448,3 +448,18 @@ def test_custom_ollama_endpoint_needs_no_key(translate_app):
     ))
     assert resp.status_code == 200
     assert len(state_manager.created) == 1
+
+
+@pytest.mark.parametrize('provider', ['gemini', 'nim', 'openrouter', 'mistral', 'deepseek', 'poe'])
+def test_cloud_provider_endpoint_field_is_inert(translate_app, monkeypatch, provider):
+    """Cloud providers ignore llm_api_endpoint, so the pairing guard must not fire."""
+    client, state_manager, _started = translate_app
+    monkeypatch.setenv(f'{provider.upper()}_API_KEY', f'env-{provider}-key')
+    resp = client.post('/api/translate', json=_payload(
+        llm_provider=provider,
+        model='test-model',
+        llm_api_endpoint='http://192.168.1.50:11434/api/generate',
+        **{f'{provider}_api_key': '__USE_ENV__'},
+    ))
+    assert resp.status_code == 200
+    assert len(state_manager.created) == 1

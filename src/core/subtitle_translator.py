@@ -185,6 +185,7 @@ async def refine_subtitle_translations(
     check_interruption_callback=None,
     subtitle_blocks: Optional[List[List[Dict[str, str]]]] = None,
     subtitle_positions: Optional[Dict[int, int]] = None,
+    max_refinement_retries: Optional[int] = None,
 ) -> Dict[int, str]:
     """
     Refine subtitle translations using a second LLM pass.
@@ -272,6 +273,10 @@ async def refine_subtitle_translations(
             index_groups.append(current)
 
     total_blocks = len(index_groups)
+    if max_refinement_retries is None:
+        from src.config import MAX_REFINEMENT_RETRIES as _DEFAULT_REF_RETRIES
+        max_refinement_retries = _DEFAULT_REF_RETRIES
+
     srt_processor = SRTProcessor()
     previous_refined_block = ""
 
@@ -283,7 +288,9 @@ async def refine_subtitle_translations(
             refined_translations[g_idx] = text
             completed_count += 1
 
-    max_block_attempts = 2  # initial attempt + 1 retry with reinforced reminder
+    # total attempts allowed = 1 initial attempt + max_refinement_retries
+    # if max_refinement_retries == -1, retries are infinite (-1)
+    max_block_attempts = -1 if max_refinement_retries == -1 else (1 + max_refinement_retries)
 
     for block_idx, group in enumerate(index_groups):
         if check_interruption_callback and check_interruption_callback():
@@ -314,7 +321,10 @@ async def refine_subtitle_translations(
         block_refined: Dict[int, str] = {}
         expected_local_indices = list(range(len(local_subtitle_tuples)))
 
-        for attempt in range(max_block_attempts):
+        attempt = 0
+        while True:
+            if max_block_attempts != -1 and attempt >= 999:
+                break
             if check_interruption_callback and check_interruption_callback():
                 break
 
@@ -372,6 +382,8 @@ async def refine_subtitle_translations(
                 # All subtitles recovered? stop retrying.
                 if len(block_refined) == len(group):
                     break
+
+                attempt += 1
 
             except Exception as e:
                 # Re-raise RateLimitError to trigger auto-pause

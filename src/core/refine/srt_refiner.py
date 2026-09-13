@@ -40,6 +40,7 @@ async def refine_srt_file(
     deepseek_api_key: Optional[str] = None,
     poe_api_key: Optional[str] = None,
     nim_api_key: Optional[str] = None,
+    max_refinement_retries: Optional[int] = None,
     prompt_options: Optional[Dict[str, Any]] = None,
 ) -> bool:
     """Run a refinement-only pass on an already-translated SRT file."""
@@ -123,6 +124,7 @@ async def refine_srt_file(
             check_interruption_callback=check_interruption_callback,
             subtitle_blocks=refine_blocks,
             subtitle_positions=subtitle_positions,
+            max_refinement_retries=max_refinement_retries,
         )
     finally:
         if llm_client:

@@ -295,7 +295,8 @@ class OllamaProvider(LLMProvider):
                 payload["think"] = False
 
         client = await self._get_client()
-        for attempt in range(MAX_TRANSLATION_ATTEMPTS):
+        attempt = 0
+        while (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS):
             try:
                 # Use streaming to monitor tokens in real-time
                 content_chunks = []
@@ -515,9 +516,10 @@ class OllamaProvider(LLMProvider):
                 else:
                     print(f"{YELLOW}⚠️ LLM timeout (attempt {attempt + 1}/{MAX_TRANSLATION_ATTEMPTS}): {e}{RESET}")
 
-                if attempt < MAX_TRANSLATION_ATTEMPTS - 1:
+                if (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS - 1):
                     if self.log_callback:
                         self.log_callback("llm_retry", f"   Retrying in 2 seconds...")
+                    attempt += 1
                     await asyncio.sleep(2)
                     continue
 
@@ -579,9 +581,10 @@ class OllamaProvider(LLMProvider):
                 else:
                     print(f"{YELLOW}HTTP error (attempt {attempt + 1}): {error_message}{RESET}")
 
-                if attempt < MAX_TRANSLATION_ATTEMPTS - 1:
+                if (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS - 1):
                     if self.log_callback:
                         self.log_callback("llm_retry", f"   Retrying in 2 seconds...")
+                    attempt += 1
                     await asyncio.sleep(2)
                     continue
 
@@ -614,9 +617,10 @@ class OllamaProvider(LLMProvider):
                 else:
                     print(f"{YELLOW}JSON decode error (attempt {attempt + 1}): {e}{RESET}")
 
-                if attempt < MAX_TRANSLATION_ATTEMPTS - 1:
+                if (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS - 1):
                     if self.log_callback:
                         self.log_callback("llm_retry", f"   Retrying in 2 seconds...")
+                    attempt += 1
                     await asyncio.sleep(2)
                     continue
 
@@ -642,9 +646,10 @@ class OllamaProvider(LLMProvider):
                 else:
                     print(f"{YELLOW}Unexpected error (attempt {attempt + 1}): {type(e).__name__}: {e}{RESET}")
 
-                if attempt < MAX_TRANSLATION_ATTEMPTS - 1:
+                if (MAX_TRANSLATION_ATTEMPTS == -1 or attempt < MAX_TRANSLATION_ATTEMPTS - 1):
                     if self.log_callback:
                         self.log_callback("llm_retry", f"   Retrying in 2 seconds...")
+                    attempt += 1
                     await asyncio.sleep(2)
                     continue
 
