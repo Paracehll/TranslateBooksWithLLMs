@@ -51,7 +51,9 @@ class OpenAICompatibleProvider(LLMProvider):
         Normalize API endpoint URL for OpenAI-compatible APIs.
         
         Automatically adds '/chat/completions' if the URL ends with '/v1' or '/v1/'
-        but not with the full path. This handles common user mistakes like:
+        but not with the full path. Also cleans unicode copy-paste artifacts
+        (dashes, zero-width spaces).
+        This handles common user mistakes like:
         - http://localhost:11434/v1 -> http://localhost:11434/v1/chat/completions
         - https://api.example.com/v1/ -> https://api.example.com/v1/chat/completions
         
@@ -64,6 +66,13 @@ class OpenAICompatibleProvider(LLMProvider):
         if not endpoint:
             return endpoint
         
+        # Clean copy-paste artifacts
+        for dash in ("\u2010", "\u2011", "\u2012", "\u2013", "\u2014", "\u2015", "\u2212"):
+            endpoint = endpoint.replace(dash, "-")
+        for zw in ("\ufeff", "\u200b", "\u200c", "\u200d", "\u200e", "\u200f"):
+            endpoint = endpoint.replace(zw, "")
+        endpoint = endpoint.strip(" \t\n\r\u00a0")
+
         # Remove trailing slash for consistent processing
         endpoint = endpoint.rstrip('/')
         

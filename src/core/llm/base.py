@@ -16,24 +16,48 @@ from src.core.llm.utils.extraction import TranslationExtractor
 from src.core.llm.key_pool import KeyPool
 
 
+def sanitize_api_key(raw: str) -> str:
+    """Sanitize API key string to fix common copy-paste unicode artifacts.
+
+    Replaces unicode dashes (en-dash, em-dash, etc.) with ASCII hyphen (-),
+    replaces smart quotes, removes zero-width spaces / BOM, and strips whitespace.
+    """
+    if not raw or not isinstance(raw, str):
+        return raw or ""
+    # Unicode dash variations -> ASCII hyphen
+    for dash in ("\u2010", "\u2011", "\u2012", "\u2013", "\u2014", "\u2015", "\u2212"):
+        raw = raw.replace(dash, "-")
+    # Smart quotes -> ASCII
+    for q in ("\u2018", "\u2019"):
+        raw = raw.replace(q, "'")
+    for q in ("\u201c", "\u201d"):
+        raw = raw.replace(q, '"')
+    # Zero-width spaces and BOM
+    for zw in ("\ufeff", "\u200b", "\u200c", "\u200d", "\u200e", "\u200f"):
+        raw = raw.replace(zw, "")
+    # Strip whitespace including non-breaking space (\u00a0)
+    return raw.strip(" \t\n\r\u00a0")
+
+
 def normalize_api_keys(raw: Optional[Union[str, Iterable[str]]]) -> List[str]:
     """Split comma/newline-separated key strings into a clean list.
 
     Accepts a single key, a "k1,k2,k3" string (the documented multi-key
     format used by .env, the Web UI input, and the CLI), or an iterable of
-    keys. Whitespace and empty fragments are trimmed; order is preserved
-    for round-robin rotation.
+    keys. Whitespace, unicode copy-paste artifacts, and empty fragments are
+    trimmed/sanitized; order is preserved for round-robin rotation.
 
     Returns an empty list when no usable key is provided.
     """
     if raw is None:
         return []
-    if not isinstance(raw, str):
-        return [k for k in raw if k]
-    if "," not in raw and "\n" not in raw:
-        return [raw] if raw else []
-    parts = [p.strip() for p in raw.replace("\n", ",").split(",")]
-    return [p for p in parts if p]
+    if isinstance(raw, str):
+        parts = [p for p in raw.replace("\n", ",").split(",")]
+    else:
+        parts = list(raw)
+
+    sanitized = [sanitize_api_key(p) for p in parts]
+    return [k for k in sanitized if k]
 
 
 @dataclass
