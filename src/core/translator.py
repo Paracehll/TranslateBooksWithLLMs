@@ -899,7 +899,7 @@ async def refine_chunks(
                     break
 
                 # Refinement failed for this attempt
-                if max_refinement_retries != -1 and attempt >= 999:
+                if max_refinement_retries != -1 and attempt >= max_refinement_retries:
                     break
 
                 attempt += 1

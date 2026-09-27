@@ -12,6 +12,7 @@ the glossary NER endpoint forwarded the literal ``__USE_ENV__`` to Gemini,
 which rejected it as an invalid key. Keep the single source of truth here.
 """
 import os
+from src.core.llm.base import sanitize_api_key
 
 # Marker the frontend sends when the key field is empty but a key is
 # configured in .env. Resolved back to the real env value server-side.
@@ -42,7 +43,7 @@ def resolve_api_key(value, env_var_name, config_default='', allow_env_fallback=T
     """Resolve a per-request API-key value to the key to actually use.
 
     A real key (anything truthy that isn't the ``__USE_ENV__`` sentinel) is
-    returned unchanged — including multi-key, comma-separated strings, which
+    sanitized and returned — including multi-key, comma-separated strings, which
     provider constructors split for key rotation. Otherwise the value falls
     back to the environment variable, then to ``config_default``.
 
@@ -60,9 +61,8 @@ def resolve_api_key(value, env_var_name, config_default='', allow_env_fallback=T
         The resolved key string (possibly empty if nothing is configured).
     """
     if value and value != USE_ENV_SENTINEL:
-        return value
+        return sanitize_api_key(value)
     if not allow_env_fallback:
         return ''
-    if not env_var_name:
-        return config_default
-    return os.getenv(env_var_name, config_default)
+    resolved = os.getenv(env_var_name, config_default) if env_var_name else config_default
+    return sanitize_api_key(resolved)
