@@ -25,7 +25,7 @@ class TranslationConfig:
         placeholder_suffix: Placeholder suffix (e.g., "]")
     """
     max_tokens_per_chunk: int = MAX_TOKENS_PER_CHUNK
-    max_retries: int = 3
+    max_retries: int = 999
     enable_debug: bool = False
     placeholder_prefix: str = "[id"
     placeholder_suffix: str = "]"

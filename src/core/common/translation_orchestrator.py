@@ -163,7 +163,7 @@ class GenericTranslationOrchestrator(Generic[SourceT, ResultT]):
         max_tokens_per_chunk: int = 450,
         log_callback: Optional[Callable] = None,
         context_manager: Optional[Any] = None,
-        max_retries: int = 1,
+        max_retries: int = 999,
         prompt_options: Optional[Dict] = None,
         stats_callback: Optional[Callable] = None,
         checkpoint_manager: Optional[Any] = None,

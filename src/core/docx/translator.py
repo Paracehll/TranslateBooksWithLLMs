@@ -21,7 +21,7 @@ async def translate_docx_file(
     log_callback: Optional[Callable] = None,
     stats_callback: Optional[Callable] = None,
     prompt_options: Optional[Dict] = None,
-    max_retries: int = 1,
+    max_retries: int = 999,
     context_manager: Optional[Any] = None,
     check_interruption_callback: Optional[Callable] = None,
     checkpoint_manager: Optional[Any] = None,

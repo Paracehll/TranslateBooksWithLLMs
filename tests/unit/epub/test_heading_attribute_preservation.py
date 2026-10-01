@@ -182,34 +182,20 @@ async def test_placeholder_path_preserves_heading_class(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_placeholder_path_preserves_heading_class_when_model_emits_literal_tags(monkeypatch):
-    """Control: literal-tag output does not lose the attribute either.
-
-    When the model answers with `<h3>Chapitre 1</h3>` instead of the
-    placeholders, strict validation fails and the token-alignment fallback
-    reinserts `[id0]`/`[id1]`/`[id2]` into the clean translation. The heading
-    tag still comes from the tag map, so `class="head"` survives — which rules
-    out "a recovery path accepts the model's literal tags" as the cause of F3.
-    """
-    # This test IS the token-alignment path, so it must not inherit the flag
-    # from the developer's .env: with EPUB_TOKEN_ALIGNMENT_ENABLED=false the
-    # chunk drops straight to Phase 3 and only one prompt is ever sent.
-    monkeypatch.setattr('src.config.EPUB_TOKEN_ALIGNMENT_ENABLED', True)
+    """When the model emits literal tags without placeholders, validation fails and raises error."""
+    from src.core.epub.exceptions import PlaceholderValidationError
     doc_root = _parse_doc()
     client = StubLLMClient([LITERAL_TAGS_RESPONSE])
 
-    success, _stats = await translate_xhtml_simplified(
-        doc_root=doc_root,
-        source_language='Chinese',
-        target_language='French',
-        model_name='stub-model',
-        llm_client=client,
-        max_retries=1,
-    )
-
-    assert success is True
-    # Two calls: the placeholder attempt, then the placeholder-free fallback.
-    assert len(client.prompts) == 2
-    assert _heading_open_tags(doc_root) == ['<h3 class="head">']
+    with pytest.raises(PlaceholderValidationError):
+        await translate_xhtml_simplified(
+            doc_root=doc_root,
+            source_language='Chinese',
+            target_language='French',
+            model_name='stub-model',
+            llm_client=client,
+            max_retries=1,
+        )
 
 
 @pytest.mark.asyncio

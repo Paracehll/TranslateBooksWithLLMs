@@ -405,7 +405,7 @@ async def translate_chunk_with_fallback(
     llm_client: Any,
     stats: TranslationMetrics,
     log_callback: Optional[Callable] = None,
-    max_retries: int = 1,
+    max_retries: int = 999,
     context_manager: Optional[AdaptiveContextManager] = None,
     placeholder_format: Optional[Tuple[str, str]] = None,
     prompt_options: Optional[Dict] = None,
@@ -504,94 +504,11 @@ async def translate_chunk_with_fallback(
             stats.retry_attempts += 1
             # Continue to next retry attempt
 
-    # ==========================================================================
-    # PHASE 2: TOKEN ALIGNMENT FALLBACK
-    # ==========================================================================
-    from src.config import EPUB_TOKEN_ALIGNMENT_ENABLED
-
-    if EPUB_TOKEN_ALIGNMENT_ENABLED:
-        try:
-            stats.token_alignment_used += 1  # Track Phase 2 usage
-            if log_callback:
-                log_callback("phase2_warning",
-                    f"⚠️ Placeholder validation failed after {max_retries} attempts - using fallback")
-                log_callback("phase2_hint",
-                    "💡 Tip: A more capable LLM model may better preserve placeholders and avoid layout issues")
-
-            # 1. Extract clean text (without placeholders)
-            from src.common.placeholder_format import PlaceholderFormat
-            fmt = PlaceholderFormat.from_config()
-            clean_text = fmt.remove_all(chunk_text)
-
-            # 2. Translate WITHOUT placeholders (guaranteed to work)
-            # Note: generate_translation_request will show its own logs during translation
-            translated_clean = await generate_translation_request(
-                clean_text,
-                context_before="",
-                context_after="",
-                previous_translation_context="",
-                source_language=source_language,
-                target_language=target_language,
-                model=model_name,
-                llm_client=llm_client,
-                log_callback=log_callback,
-                has_placeholders=False,  # CRITICAL: no placeholder instructions
-                context_manager=context_manager,
-                placeholder_format=None,  # No placeholders in prompt
-                prompt_options=prompt_options
-            )
-
-            if translated_clean is None:
-                raise Exception("LLM returned None for clean translation")
-
-            # 3. Initialize aligner (lazy loading, cached on function)
-            if not hasattr(translate_chunk_with_fallback, '_aligner'):
-                from .token_alignment_fallback import TokenAlignmentFallback
-                translate_chunk_with_fallback._aligner = TokenAlignmentFallback()
-
-            # 4. Align and reinsert placeholders
-            placeholders_list = list(local_tag_map.keys())  # ["[id0]", "[id1]", ...]
-
-            result_with_placeholders = translate_chunk_with_fallback._aligner.align_and_insert_placeholders(
-                original_with_placeholders=chunk_text,
-                translated_without_placeholders=translated_clean,
-                placeholders=placeholders_list
-            )
-
-            # 5. Validate (should always pass, but check anyway)
-            if validate_placeholders(result_with_placeholders, local_tag_map):
-                stats.token_alignment_success += 1  # Track Phase 2 success
-                if log_callback:
-                    log_callback("phase2_success", f"✓ Phase 2 successful: Token alignment repositioned {len(placeholders_list)} tags")
-                    log_callback("phase2_warning", "⚠️ Note: Proportional repositioning may cause minor layout imperfections")
-
-                # 6. Restore global indices and return
-                stats.record_chunk_outcome(chunk_index, CHUNK_TOKEN_ALIGNED)
-                result = placeholder_mgr.restore_to_global(result_with_placeholders, global_indices)
-                stats.record_processed()  # Mark chunk as fully processed
-                return result
-            else:
-                _log_error(log_callback, "phase2_validation_failed", "✗ Phase 2 validation failed")
-
-        except Exception as e:
-            _log_error(log_callback, "phase2_error", f"✗ Phase 2 error: {str(e)}")
-
-    # ==========================================================================
-    # PHASE 3: UNTRANSLATED FALLBACK
-    # ==========================================================================
-    stats.fallback_used += 1
+    # All translation retries exhausted without returning valid translation
     stats.record_chunk_outcome(chunk_index, CHUNK_UNTRANSLATED)
-
-    _log_error(log_callback, "fallback_untranslated",
-        "✗ Phase 3: All translation attempts failed - returning original untranslated text")
-
-    if log_callback:
-        log_callback("phase3_warning", "⚠️ This chunk will remain in the source language")
-
-    # Return the original chunk_text with global indices restored
-    result_final = placeholder_mgr.restore_to_global(chunk_text, global_indices)
-    stats.record_processed()  # Mark chunk as fully processed (even on failure)
-    return result_final
+    _log_error(log_callback, "translation_exhausted",
+        f"✗ All {max_retries} translation attempts failed placeholder validation.")
+    raise PlaceholderValidationError(f"Placeholder validation failed after {max_retries} attempts")
 
 
 # === Private Helper Functions ===
@@ -699,9 +616,9 @@ async def _translate_all_chunks_with_checkpoint(
     target_language: str,
     model_name: str,
     llm_client: Any,
-    max_retries: int,
     context_manager: Optional[AdaptiveContextManager],
     placeholder_format: Tuple[str, str],
+    max_retries: int = 999,
     log_callback: Optional[Callable] = None,
     stats_callback: Optional[Callable] = None,
     # NEW PARAMETERS for checkpoint support
@@ -1087,9 +1004,9 @@ async def _translate_all_chunks(
     target_language: str,
     model_name: str,
     llm_client: Any,
-    max_retries: int,
     context_manager: Optional[AdaptiveContextManager],
     placeholder_format: Tuple[str, str],
+    max_retries: int = 999,
     log_callback: Optional[Callable] = None,
     stats_callback: Optional[Callable] = None,
     check_interruption_callback: Optional[Callable] = None,
@@ -1778,7 +1695,7 @@ async def translate_xhtml_simplified(
     max_tokens_per_chunk: Optional[int] = None,
     log_callback: Optional[Callable] = None,
     context_manager: Optional[AdaptiveContextManager] = None,
-    max_retries: int = 1,
+    max_retries: int = 999,
     container: Optional[TranslationContainer] = None,
     prompt_options: Optional[Dict] = None,
     bilingual: bool = False,

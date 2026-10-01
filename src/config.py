@@ -283,9 +283,9 @@ if _max_retries_legacy and not os.getenv('MAX_TRANSLATION_ATTEMPTS'):
     try:
         MAX_TRANSLATION_ATTEMPTS = int(_max_retries_legacy)
     except ValueError:
-        MAX_TRANSLATION_ATTEMPTS = 2
+        MAX_TRANSLATION_ATTEMPTS = 999
 else:
-    MAX_TRANSLATION_ATTEMPTS = int(os.getenv('MAX_TRANSLATION_ATTEMPTS', '2'))
+    MAX_TRANSLATION_ATTEMPTS = int(os.getenv('MAX_TRANSLATION_ATTEMPTS', '999'))
 
 # Sampling temperature applied to cloud LLM providers (gemini, deepseek, mistral,
 # poe). Lower values favor consistent translations; higher values produce more
@@ -525,11 +525,11 @@ PLACEHOLDER_PATTERN = r'\[id(\d+)\]'
 """Regex pattern for placeholders (e.g., [id0])"""
 
 # Maximum retries for placeholder validation before falling back to source text
-MAX_PLACEHOLDER_RETRIES = 0
+MAX_PLACEHOLDER_RETRIES = 999
 """Number of retry attempts when placeholder validation fails"""
 
-MAX_PLACEHOLDER_CORRECTION_ATTEMPTS = 0
-"""Number of LLM correction attempts before falling back to proportional insertion (0 = skip correction phase entirely)"""
+MAX_PLACEHOLDER_CORRECTION_ATTEMPTS = 999
+"""Number of LLM correction attempts before falling back to proportional insertion"""
 
 # =============================================================================
 # TOKEN ALIGNMENT FALLBACK CONFIGURATION (Phase 2)
@@ -537,7 +537,7 @@ MAX_PLACEHOLDER_CORRECTION_ATTEMPTS = 0
 # When LLM fails to preserve placeholders correctly, use word-level alignment
 # to reinsert them at semantically correct positions.
 
-EPUB_TOKEN_ALIGNMENT_ENABLED = os.getenv('EPUB_TOKEN_ALIGNMENT_ENABLED', 'true').lower() == 'true'
+EPUB_TOKEN_ALIGNMENT_ENABLED = os.getenv('EPUB_TOKEN_ALIGNMENT_ENABLED', 'false').lower() == 'true'
 """Enable token alignment fallback for EPUB translation (Phase 2)"""
 
 EPUB_SCRIPT_NORMALIZATION_ENABLED = os.getenv(

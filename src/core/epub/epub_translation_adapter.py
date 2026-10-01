@@ -184,7 +184,7 @@ class EpubTranslationAdapter(TranslationAdapter[etree._Element, bool]):
         max_tokens_per_chunk: int,
         log_callback: Optional[Callable] = None,
         context_manager: Optional[Any] = None,
-        max_retries: int = 1,
+        max_retries: int = 999,
         prompt_options: Optional[Dict] = None,
         stats_callback: Optional[Callable] = None,
         checkpoint_manager: Optional[Any] = None,

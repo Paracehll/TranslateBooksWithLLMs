@@ -392,7 +392,7 @@ class AdaptiveContextManager:
 
         # Track retry attempts for current chunk
         self._retry_count = 0
-        self._max_retries = 10  # Safety limit
+        self._max_retries = 999  # Safety limit
 
     def get_context_size(self) -> int:
         """Get the current context size to use for the next request"""

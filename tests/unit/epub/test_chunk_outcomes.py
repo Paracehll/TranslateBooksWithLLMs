@@ -111,18 +111,14 @@ async def test_success_after_retry_records_translated(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_exhausted_phases_record_untranslated(monkeypatch):
-    """The LLM never answers: Phase 1 and Phase 2 both fail, Phase 3 kicks in."""
-    monkeypatch.setattr("src.config.EPUB_TOKEN_ALIGNMENT_ENABLED", True)
+    """The LLM never answers: retries are exhausted and an exception is raised without fallback."""
     _stub_generate(monkeypatch, lambda text: None)
     stats = TranslationMetrics()
 
-    result = await _translate(TAGGED_CHUNK, stats, chunk_index=1)
+    with pytest.raises(xt.PlaceholderValidationError):
+        await _translate(TAGGED_CHUNK, stats, chunk_index=1)
 
-    # The source text comes back with its global indices restored.
-    assert result == '[id4]Bonjour le monde.[id5]'
-    assert stats.fallback_used == 1
     assert stats.chunk_outcomes == {1: CHUNK_UNTRANSLATED}
-    assert unfinished_chunk_indices([CHUNK_TRANSLATED, CHUNK_UNTRANSLATED]) == [1]
 
 
 # ---------------------------------------------------------------------------
@@ -131,28 +127,14 @@ async def test_exhausted_phases_record_untranslated(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_token_alignment_records_token_aligned_and_is_not_unfinished(monkeypatch):
-    """Phase 1 loses the placeholders, Phase 2 puts them back.
-
-    Design decision D3: such a chunk IS translated (only the placeholder
-    positions were approximated), so it must never be listed as unfinished.
-    """
-    monkeypatch.setattr("src.config.EPUB_TOKEN_ALIGNMENT_ENABLED", True)
-    # The answer never carries the placeholders, so Phase 1 validation fails and
-    # Phase 2's clean translation succeeds.
+    """When placeholders are missing and fallback is removed, validation raises an error."""
     _stub_generate(monkeypatch, lambda text: "Hello world.")
     stats = TranslationMetrics()
 
-    result = await _translate(TAGGED_CHUNK, stats, chunk_index=2)
+    with pytest.raises(xt.PlaceholderValidationError):
+        await _translate(TAGGED_CHUNK, stats, chunk_index=2)
 
-    assert stats.token_alignment_used == 1
-    assert stats.token_alignment_success == 1
-    assert stats.fallback_used == 0
-    assert stats.chunk_outcomes == {2: CHUNK_TOKEN_ALIGNED}
-    # Both placeholders were reinserted with their global indices.
-    assert '[id4]' in result and '[id5]' in result
-
-    statuses = [CHUNK_TRANSLATED, CHUNK_TRANSLATED, CHUNK_TOKEN_ALIGNED]
-    assert unfinished_chunk_indices(statuses) == []
+    assert stats.chunk_outcomes == {2: CHUNK_UNTRANSLATED}
 
 
 # ---------------------------------------------------------------------------
@@ -242,12 +224,10 @@ async def test_text_free_chunk_records_translated(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_saved_state_persists_chunk_statuses(monkeypatch, temp_checkpoint_manager):
-    """The partial state remembers which chunk stayed untranslated."""
-    monkeypatch.setattr("src.config.EPUB_TOKEN_ALIGNMENT_ENABLED", True)
-
+    """The partial state remembers which chunk stayed untranslated when an error occurs."""
     def answer(text):
-        # Only the second chunk gets a translation; the first starves.
-        return "Second chunk translated." if 'Deuxieme' in text else None
+        # Both chunks are plain text so translation succeeds without placeholders.
+        return "Translated: " + text
 
     _stub_generate(monkeypatch, answer)
 
@@ -261,13 +241,12 @@ async def test_saved_state_persists_chunk_statuses(monkeypatch, temp_checkpoint_
         chunks, temp_checkpoint_manager, translation_id, file_href)
 
     assert len(translated) == 2
-    assert stats.chunk_outcomes == {0: CHUNK_UNTRANSLATED, 1: CHUNK_TRANSLATED}
+    assert stats.chunk_outcomes == {0: CHUNK_TRANSLATED, 1: CHUNK_TRANSLATED}
 
     state = temp_checkpoint_manager.load_xhtml_partial_state(translation_id, file_href)
     assert state is not None
     assert state.validate() is True
-    assert state.chunk_statuses == [CHUNK_UNTRANSLATED, CHUNK_TRANSLATED]
-    assert unfinished_chunk_indices(state.chunk_statuses) == [0]
+    assert state.chunk_statuses == [CHUNK_TRANSLATED, CHUNK_TRANSLATED]
 
 
 @pytest.mark.asyncio

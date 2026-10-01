@@ -213,7 +213,7 @@ class DocxTranslationAdapter(TranslationAdapter[str, bytes]):
         max_tokens_per_chunk: int,
         log_callback: Optional[Callable] = None,
         context_manager: Optional[Any] = None,
-        max_retries: int = 1,
+        max_retries: int = 999,
         prompt_options: Optional[Dict] = None,
         stats_callback: Optional[Callable] = None,
         checkpoint_manager: Optional[Any] = None,
@@ -432,7 +432,7 @@ class DocxTranslationAdapter(TranslationAdapter[str, bytes]):
         file_href: Optional[str] = None,
         checkpoint_manager: Optional[Any] = None,
         translation_id: Optional[str] = None,
-        max_retries: int = 1,
+        max_retries: int = 999,
         resume_state: Optional[Any] = None,
     ) -> Tuple[bytes, Any]:
         """

@@ -579,7 +579,7 @@ async def translate_subtitles_in_blocks(subtitle_blocks: List[List[Dict[str, str
             )
             
             # Make translation request using LLM client with retry mechanism
-            max_retries = 3
+            max_retries = 999
             retry_count = 0
             translated_block_text = None
 

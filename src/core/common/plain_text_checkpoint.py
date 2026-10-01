@@ -130,7 +130,7 @@ def build_plain_checkpoint_hook(
             target_language=target_language,
             model_name=model_name,
             max_tokens_per_chunk=max_tokens_per_chunk,
-            max_retries=max_retries or 1,
+            max_retries=max_retries or 999,
             chunks=_as_persistable_chunks(segments),
             global_tag_map={},
             placeholder_format=("", ""),

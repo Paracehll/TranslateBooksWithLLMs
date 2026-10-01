@@ -285,7 +285,7 @@ async def translate_file(
             log_callback=log_callback,
             stats_callback=stats_callback,
             prompt_options=prompt_options,
-            max_retries=1,
+            max_retries=999,
             context_manager=None,
             check_interruption_callback=check_interruption_callback,
             checkpoint_manager=checkpoint_manager,
